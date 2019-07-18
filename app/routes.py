@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request
-from app.models import model, formopener
+from app.models import model, formopener, Boss
 global character
 global health
 
@@ -20,7 +20,9 @@ def index():
 @app.route('/Boss', methods=['GET','POST'])
 def boss():
     userdata = request.form.to_dict()
-    stats, character, health = model.makechar(userdata["character"])
-    return render_template('Boss.html',stats = stats, character = character, health = health)
+    stats, character,health,strength = model.makechar(userdata["character"])
+    outcome = Boss.Fight(health, strength, character,stats)
+    return render_template('Boss.html',stats = stats, character = character, health = health, strength= strength, outcome = outcome)
+    
     
     
